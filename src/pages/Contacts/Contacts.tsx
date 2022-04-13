@@ -191,6 +191,7 @@ export const ContactsPage: FC = () => {
           variant="standard"
         />
       </Box>
+      
       {
         searchContacts.length ? (
           <ul className={styles.list}>
