@@ -113,32 +113,28 @@ export const ContactsPage: FC = () => {
     }
   }, [error])
 
+  const getContactInformation = (values: InitialValues, uuid: string): Contact => ({
+    [CONTACT_FIELD.first_name]: values[CONTACT_FIELD.first_name],
+    [CONTACT_FIELD.second_name]: values[CONTACT_FIELD.second_name],
+    [CONTACT_FIELD.last_name]: values[CONTACT_FIELD.last_name],
+    [CONTACT_FIELD.phone]: values[CONTACT_FIELD.phone],
+    [CONTACT_FIELD.id]: uuid
+  })
+
   const handleDeleteContact = () => {
     dispatch(fetchDeleteContact(contact))
 
     handleCloseDeleteModal()
   }
   const handleAddContact = (values: InitialValues) => {
-    const contactInformation: Contact = {
-      [CONTACT_FIELD.first_name]: values[CONTACT_FIELD.first_name],
-      [CONTACT_FIELD.second_name]: values[CONTACT_FIELD.second_name],
-      [CONTACT_FIELD.last_name]: values[CONTACT_FIELD.last_name],
-      [CONTACT_FIELD.phone]: values[CONTACT_FIELD.phone],
-      [CONTACT_FIELD.id]: uuid()
-    }
+    const contactInformation = getContactInformation(values, uuid())
 
     dispatch(fetchAddContact(contactInformation))
 
     handleCloseAddModal()
   }
   const handleUpdateContact = (values: InitialValues) => {
-    const contactInformation: Contact = {
-      [CONTACT_FIELD.first_name]: values[CONTACT_FIELD.first_name],
-      [CONTACT_FIELD.second_name]: values[CONTACT_FIELD.second_name],
-      [CONTACT_FIELD.last_name]: values[CONTACT_FIELD.last_name],
-      [CONTACT_FIELD.phone]: values[CONTACT_FIELD.phone],
-      [CONTACT_FIELD.id]: uuid()
-    }
+    const contactInformation = getContactInformation(values, contact[CONTACT_FIELD.id])
 
     dispatch(fetchUpdateContact(contactInformation))
 
@@ -185,7 +181,7 @@ export const ContactsPage: FC = () => {
       <h2 className={styles.title}>Список контактов</h2>
       <div className={styles.containerTop}>
         <Button onClick={handleOpenAddModal} className={styles.button_Add} variant="outlined">Добавить новый контакт</Button>
-        
+
         <TextField
           value={searchText}
           onChange={handleSearch}
