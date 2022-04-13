@@ -1,9 +1,10 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, MouseEvent, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import uuid from 'react-uuid'
 
 import { Spinner } from 'ui-kit/Spinner';
 
+import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -46,7 +47,11 @@ export const ContactsPage: FC = () => {
   const { contacts, loading, error } = useAppSelector(state => state.contacts)
   const dispatch = useAppDispatch()
 
+  const [searchContacts, setSearchContacts] = useState<Contact[]>(contacts)
+
   const [contact, setContact] = useState<Contact>(initialStateContact)
+
+  const [searchText, setSearchText] = useState<string>('')
 
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState<boolean>(false)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false)
@@ -84,6 +89,21 @@ export const ContactsPage: FC = () => {
   ], [])
 
   useEffect(() => {
+    setSearchContacts(contacts)
+  }, [contacts])
+
+  useEffect(() => {
+    const searchContacts = searchText ? contacts.filter(contact =>
+      contact[CONTACT_FIELD.first_name].includes(searchText) ||
+      contact[CONTACT_FIELD.second_name].includes(searchText) ||
+      (contact[CONTACT_FIELD.last_name]?.includes(searchText) && contact[CONTACT_FIELD.last_name]) ||
+      contact[CONTACT_FIELD.phone].includes(searchText)
+    ) : contacts
+
+    setSearchContacts(searchContacts)
+  }, [searchText])
+
+  useEffect(() => {
     dispatch(fetchGetContacts())
   }, [dispatch])
 
@@ -99,7 +119,7 @@ export const ContactsPage: FC = () => {
     handleCloseDeleteModal()
   }
   const handleAddContact = (values: InitialValues) => {
-    const contactInformation: Contact= {
+    const contactInformation: Contact = {
       [CONTACT_FIELD.first_name]: values[CONTACT_FIELD.first_name],
       [CONTACT_FIELD.second_name]: values[CONTACT_FIELD.second_name],
       [CONTACT_FIELD.last_name]: values[CONTACT_FIELD.last_name],
@@ -134,7 +154,7 @@ export const ContactsPage: FC = () => {
     setIsOpenUpdateModal(false)
   }
 
-  const handleOpenAddModal= (): void => {
+  const handleOpenAddModal = (): void => {
     setContact(initialStateContact)
 
     setIsOpenCreateModal(true)
@@ -152,17 +172,33 @@ export const ContactsPage: FC = () => {
     setIsOpenDeleteModal(false)
   }
 
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+
+    setSearchText(value)
+  }
+
   if (loading) return <Spinner />
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Список контактов</h2>
-      <Button onClick={handleOpenAddModal} className={styles.button_Add} variant="outlined">Добавить новый контакт</Button>
+      <div className={styles.containerTop}>
+        <Button onClick={handleOpenAddModal} className={styles.button_Add} variant="outlined">Добавить новый контакт</Button>
+        
+        <TextField
+          value={searchText}
+          onChange={handleSearch}
+          label="Поиск"
+          type="search"
+          variant="standard"
+        />
+      </div>
       {
-        contacts.length ? (
+        searchContacts.length ? (
           <ul className={styles.list}>
             {
-              contacts.map(contact =>
+              searchContacts.map(contact =>
                 <ContactComponent
                   handleDelete={handleOpenDeleteModal}
                   handleUpdate={handleOpenUpdateModal}
@@ -172,7 +208,9 @@ export const ContactsPage: FC = () => {
             }
           </ul>
         ) : (
-          <span className={styles.text}>У вас пока нет контактов. Создайте свой первый контакт</span>
+          <span className={styles.text}>
+            {searchText ? 'По вашему запросу мы не смогли найти ни одного контакта' : "У вас пока нет контактов. Создайте свой первый контакт"}
+          </span>
         )
       }
 
