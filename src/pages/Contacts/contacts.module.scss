@@ -1,0 +1,30 @@
+.container {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  padding-bottom: 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.text {
+  width: 100%;
+}
+
+.button {
+  &_Add {
+    max-width: 250px;
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 100px;
+}
