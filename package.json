@@ -1,5 +1,6 @@
 {
-  "name": "test_contacts",
+  "name": "Test_contact",
+  "author": "Artemov (Artemidas) Maksim",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -33,10 +34,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "concurrently --kill-others \"react-scripts start\"  \"json-server --watch --port 3001 src/api/db.json\" ",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently --kill-others \"react-scripts start\"  \"json-server --watch --port 3001 src/api/db.json\" "
   },
   "eslintConfig": {
     "extends": "react-app"
