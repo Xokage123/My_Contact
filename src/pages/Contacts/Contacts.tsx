@@ -55,7 +55,7 @@ export const ContactsPage: FC = () => {
 
   const [isOpenUpdateModal, setIsOpenUpdateModal] = useState<boolean>(false)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false)
-  const [isOpenCreateModal, setIsOpenCreateModal] = useState<boolean>(false)
+  const [isOpenAddModal, setIsOpenAddModal] = useState<boolean>(false)
 
   const initialValues = useMemo<InitialValues>(() => ({
     [CONTACT_FIELD.first_name]: contact[CONTACT_FIELD.first_name],
@@ -153,10 +153,10 @@ export const ContactsPage: FC = () => {
   const handleOpenAddModal = (): void => {
     setContact(initialStateContact)
 
-    setIsOpenCreateModal(true)
+    setIsOpenAddModal(true)
   }
   const handleCloseAddModal = (): void => {
-    setIsOpenCreateModal(false)
+    setIsOpenAddModal(false)
   }
 
   const handleOpenDeleteModal = (contact: Contact) => (): void => {
@@ -231,7 +231,7 @@ export const ContactsPage: FC = () => {
       </Modal>
 
       <Modal
-        open={isOpenCreateModal}
+        open={isOpenAddModal}
         onClose={handleCloseAddModal}
       >
         <Box sx={style}>
