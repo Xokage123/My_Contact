@@ -5,6 +5,8 @@ import { ToastContainer } from 'react-toastify'
 import { FooterComponent } from 'components/Footer';
 import { HeaderComponent } from 'components/Header';
 
+import { Box } from '@mui/material';
+
 import { useAppSelector } from 'store/hooks';
 
 import { RoutePaths } from 'router/const';
@@ -29,11 +31,13 @@ export const MainLayout: FC = (props) => {
   return (
     <>
       <HeaderComponent />
+
       <main className={styles.main}>
-        <div className={classMainConatiner}>
+        <Box className={classMainConatiner}>
           {children}
-        </div>
+        </Box>
       </main>
+      
       <FooterComponent />
 
       <ToastContainer

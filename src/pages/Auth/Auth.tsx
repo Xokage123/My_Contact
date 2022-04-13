@@ -2,6 +2,8 @@ import { AxiosResponse } from 'axios';
 import { FC, useMemo } from 'react';
 import { toast } from 'react-toastify'
 
+import { Box } from '@mui/material';
+
 import { FormComponent } from 'ui-kit/Form/Form';
 import { InitialValues, Inputs } from 'ui-kit/Form/type';
 
@@ -65,7 +67,7 @@ export const AuthPage: FC = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <Box className={styles.container}>
       <FormComponent
         title='Авторизация'
         titleButton='Авторизироваться'
@@ -74,6 +76,6 @@ export const AuthPage: FC = () => {
         inputs={inputs}
         onSubmit={onSubmit}
       />
-    </div >
+    </Box >
   );
 }

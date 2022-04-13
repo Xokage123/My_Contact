@@ -177,9 +177,10 @@ export const ContactsPage: FC = () => {
   if (loading) return <Spinner />
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Список контактов</h2>
-      <div className={styles.containerTop}>
+    <Box className={styles.container}>
+      <Typography variant='h4' className={styles.title}>Список контактов</Typography>
+
+      <Box className={styles.containerTop}>
         <Button onClick={handleOpenAddModal} className={styles.button_Add} variant="outlined">Добавить новый контакт</Button>
 
         <TextField
@@ -189,7 +190,7 @@ export const ContactsPage: FC = () => {
           type="search"
           variant="standard"
         />
-      </div>
+      </Box>
       {
         searchContacts.length ? (
           <ul className={styles.list}>
@@ -204,9 +205,9 @@ export const ContactsPage: FC = () => {
             }
           </ul>
         ) : (
-          <span className={styles.text}>
+          <Typography className={styles.text}>
             {searchText ? 'По вашему запросу мы не смогли найти ни одного контакта' : "У вас пока нет контактов. Создайте свой первый контакт"}
-          </span>
+          </Typography>
         )
       }
 
@@ -264,6 +265,6 @@ export const ContactsPage: FC = () => {
           </Box>
         </Box>
       </Modal>
-    </div>
+    </Box>
   );
 }
